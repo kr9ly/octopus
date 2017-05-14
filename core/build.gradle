@@ -1,0 +1,56 @@
+plugins {
+    id "com.jfrog.bintray" version "1.7"
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+archivesBaseName = 'octopus'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+repositories {
+    mavenCentral()
+}
+
+task sourcesJar(type: Jar, dependsOn:classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn:javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+bintray {
+    user = 'kr9ly'
+    key = setting_bintray_apikey
+    publications = ['maven']
+    pkg {
+        repo = 'maven'
+        name = archivesBaseName
+        userOrg = 'kr9ly'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/kr9ly/octopus.git'
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            groupId group
+            artifactId archivesBaseName
+            artifact jar
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}

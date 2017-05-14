@@ -1,0 +1,28 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    generatedSourcesDir = file("${buildDir}/generated/java")
+}
+
+compileJava {
+    doFirst {
+        generatedSourcesDir.mkdirs()
+    }
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-source', '1.6', '-target', '1.6', '-s', generatedSourcesDir]
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':core')
+    compile project(':compiler')
+    testCompile 'junit:junit:4.12'
+}

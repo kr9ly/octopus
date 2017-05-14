@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":compiler:main" external.linked.project.path="$MODULE_DIR$/../../../compiler" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="net.kr9ly" external.system.module.type="sourceSet" external.system.module.version="1.0.0" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6">
+    <output url="file://$MODULE_DIR$/../../../compiler/build/classes/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../compiler/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../compiler/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../compiler/src/main/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.squareup:javapoet:1.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.auto.service:auto-service:1.0-rc3" level="project" />
+    <orderEntry type="module" module-name="core_main" scope="PROVIDED" />
+    <orderEntry type="library" name="Gradle: com.google.auto:auto-common:0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:19.0" level="project" />
+  </component>
+</module>

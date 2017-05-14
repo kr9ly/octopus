@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compiler.iml" filepath="$PROJECT_DIR$/.idea/modules/compiler.iml" group="compiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compiler/compiler_main.iml" filepath="$PROJECT_DIR$/.idea/modules/compiler/compiler_main.iml" group="compiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compiler/compiler_test.iml" filepath="$PROJECT_DIR$/.idea/modules/compiler/compiler_test.iml" group="compiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_main.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/octopus.iml" filepath="$PROJECT_DIR$/.idea/modules/octopus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test.iml" filepath="$PROJECT_DIR$/.idea/modules/test.iml" group="test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test/test_main.iml" filepath="$PROJECT_DIR$/.idea/modules/test/test_main.iml" group="test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test/test_test.iml" filepath="$PROJECT_DIR$/.idea/modules/test/test_test.iml" group="test" />
+    </modules>
+  </component>
+</project>

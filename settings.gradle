@@ -1,0 +1,5 @@
+rootProject.name = 'octopus'
+include 'core'
+include 'compiler'
+include 'test'
+
