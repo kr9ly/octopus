@@ -40,6 +40,7 @@ public class CallbacksFinderBuilder {
 
         classBuilder = TypeSpec.classBuilder("CallbacksFinderImpl")
                 .addAnnotation(SpecHelper.getGeneratedAnnotation())
+                .addAnnotation(AnnotationSpec.builder(SuppressWarnings.class).addMember("value", "$S", "unchecked").build())
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(CallbacksFinder.class);
 
