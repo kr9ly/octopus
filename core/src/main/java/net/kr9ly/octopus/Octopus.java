@@ -7,6 +7,7 @@ import net.kr9ly.octopus.internal.Caller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -40,6 +41,8 @@ public class Octopus {
 
     private final ExceptionHandler exceptionHandler;
 
+    private final WeakHashMap<Octopus, Void> children = new WeakHashMap<Octopus, Void>();
+
     public Octopus() {
         this(null, null);
     }
@@ -57,6 +60,12 @@ public class Octopus {
         this.exceptionHandler = exceptionHandler;
     }
 
+    /**
+     * Register all callback methods.
+     *
+     * @param target Callbacks
+     * @param <T>    Callbacks Class
+     */
     public <T> void register(T target) {
         try {
             CallbacksFinder finder = (CallbacksFinder) Class.forName(target.getClass().getPackage().getName() + ".CallbacksFinderImpl").newInstance();
@@ -74,6 +83,9 @@ public class Octopus {
                         callersMap.put(caller.eventClass(), eventCallers);
                     }
                     eventCallers.put(target, caller);
+                    if (parent != null) {
+                        parent.children.put(this, null);
+                    }
                 } finally {
                     writeLock.unlock();
                 }
@@ -83,6 +95,12 @@ public class Octopus {
         }
     }
 
+    /**
+     * Unregister all callback methods.
+     *
+     * @param target Callbacks
+     * @param <T>    Callbacks Class
+     */
     public <T> void unregister(T target) {
         try {
             CallbacksFinder finder = (CallbacksFinder) Class.forName(target.getClass().getPackage().getName() + ".CallbacksFinderImpl").newInstance();
@@ -99,6 +117,12 @@ public class Octopus {
                         return;
                     }
                     eventCallers.remove(target);
+                    if (eventCallers.isEmpty()) {
+                        callersMap.remove(caller.eventClass());
+                    }
+                    if (parent != null && callersMap.isEmpty()) {
+                        parent.children.remove(this);
+                    }
                 } finally {
                     writeLock.unlock();
                 }
@@ -108,26 +132,57 @@ public class Octopus {
         }
     }
 
+    /**
+     * Emit event to upper level.
+     *
+     * @param event Event Object
+     * @param <T>   Event Class
+     */
     public <T> void post(T event) {
         try {
             readLock.lock();
-            Map<Object, Caller<?>> callers = callersMap.get(event.getClass());
-            boolean preventPropagation = false;
-            if (callers != null) {
-                for (Caller<?> caller : callers.values()) {
-                    try {
-                        preventPropagation |= ((Caller<T>) caller).call(event);
-                    } catch (Throwable e) {
-                        handleException(e);
-                    }
-                }
-            }
+            boolean preventPropagation = call(event);
             if (parent != null && !preventPropagation) {
                 parent.post(event);
             }
         } finally {
             readLock.unlock();
         }
+    }
+
+    /**
+     * Emit event to lower level.
+     *
+     * @param event Event Object
+     * @param <T>   Event Class
+     */
+    public <T> void broadcast(T event) {
+        try {
+            readLock.lock();
+            boolean preventPropagation = call(event);
+            if (!preventPropagation) {
+                for (Octopus octopus : children.keySet()) {
+                    octopus.broadcast(event);
+                }
+            }
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    private <T> boolean call(T event) {
+        Map<Object, Caller<?>> callers = callersMap.get(event.getClass());
+        boolean preventPropagation = false;
+        if (callers != null) {
+            for (Caller<?> caller : callers.values()) {
+                try {
+                    preventPropagation |= ((Caller<T>) caller).call(event);
+                } catch (Throwable e) {
+                    handleException(e);
+                }
+            }
+        }
+        return preventPropagation;
     }
 
     private void handleException(Throwable e) {

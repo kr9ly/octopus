@@ -52,4 +52,18 @@ public class ExceptionHandlerTest {
         assertFalse(childCalled);
         assertTrue(parentCalled);
     }
+
+    @Test
+    public void testChildBroadcast() {
+        parent.broadcast(new EventA());
+        assertTrue(childCalled);
+        assertFalse(parentCalled);
+    }
+
+    @Test
+    public void testParentBroadcast() {
+        parent.broadcast(new EventB());
+        assertFalse(childCalled);
+        assertTrue(parentCalled);
+    }
 }

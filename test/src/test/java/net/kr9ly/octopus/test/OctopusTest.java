@@ -41,11 +41,34 @@ public class OctopusTest {
     }
 
     @Test
+    public void testBroadcast() {
+        parent.broadcast(new EventA());
+        assertNotNull(childCallbacks.eventA);
+        assertNotNull(parentCallbacks.eventA);
+    }
+
+    @Test
     public void testUnregister() {
         parent.unregister(parentCallbacks);
         parent.post(new EventA());
         assertNull(childCallbacks.eventA);
         assertNull(parentCallbacks.eventA);
+    }
+
+    @Test
+    public void testBroadcastUnregister() {
+        child.unregister(childCallbacks);
+        child.broadcast(new EventA());
+        assertNull(childCallbacks.eventA);
+        assertNull(parentCallbacks.eventA);
+    }
+
+    @Test
+    public void testBroadcastChildUnregister() {
+        child.unregister(childCallbacks);
+        parent.broadcast(new EventA());
+        assertNull(childCallbacks.eventA);
+        assertNotNull(parentCallbacks.eventA);
     }
 
     @Test
@@ -60,5 +83,12 @@ public class OctopusTest {
         child.post(new EventB());
         assertNotNull(childCallbacks.eventB);
         assertNull(parentCallbacks.eventB);
+    }
+
+    @Test
+    public void testPreventBroadcastPropagation() {
+        parent.post(new EventB());
+        assertNull(childCallbacks.eventB);
+        assertNotNull(parentCallbacks.eventB);
     }
 }
