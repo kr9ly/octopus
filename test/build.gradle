@@ -13,7 +13,7 @@ compileJava {
         generatedSourcesDir.mkdirs()
     }
     options.encoding = 'UTF-8'
-    options.compilerArgs += ['-source', '1.6', '-target', '1.6', '-s', generatedSourcesDir]
+    options.compilerArgs += ['-s', generatedSourcesDir]
 }
 
 
@@ -24,5 +24,7 @@ repositories {
 dependencies {
     compile project(':core')
     compile project(':compiler')
+    compile group: 'com.google.dagger', name: 'dagger', version: '2.11-rc2'
+
     testCompile 'junit:junit:4.12'
 }

@@ -22,8 +22,8 @@ And Add this to `dependencies` block in your build.gradle
 
 ```groovy
 dependencies {
-    compile 'net.kr9ly:octopus:1.1.0'
-    annotationProcessor 'net.kr9ly:octopus-compiler:1.1.0'
+    compile 'net.kr9ly:octopus:1.1.1'
+    annotationProcessor 'net.kr9ly:octopus-compiler:1.1.1'
 }
 ```
 

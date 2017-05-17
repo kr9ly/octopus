@@ -29,8 +29,12 @@ import java.util.*;
  */
 @AutoService(Processor.class)
 @SupportedAnnotationTypes({"net.kr9ly.octopus.Callback"})
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class OctopusProcessor extends AbstractProcessor {
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
